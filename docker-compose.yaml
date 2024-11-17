@@ -1,0 +1,23 @@
+services:
+
+  game:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules # Avoid overwriting node_modules
+    stdin_open: true
+    tty: true
+
+  api:
+    image: node:16
+    working_dir: /usr/src/api
+    volumes:
+      - ./api:/usr/src/api
+      - /usr/src/api/node_modules # Avoid overwriting node_modules
+    ports:
+      - "3000:3000"
+    command: ["npm", "start"]
